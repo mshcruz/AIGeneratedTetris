@@ -1,7 +1,27 @@
-const app = require('./static-server');
+const express = require('express');
+const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  path: '/socket.io',
+  serveClient: false,
+  pingInterval: 10000,
+  pingTimeout: 5000,
+  cookie: false
+});
 const path = require('path');
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
+
+// Serve Socket.IO client
+app.get('/socket.io/socket.io.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'node_modules', 'socket.io', 'client-dist', 'socket.io.js'));
+});
+
+// Serve index.html for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Store active games
 const games = new Map();

@@ -1,15 +1,10 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" },
-    { "src": "static-server.js", "use": "@vercel/node" }
+    { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/socket.io/(.*)", "dest": "/server.js" },
-    { "src": "^/styles.css$", "dest": "/static-server.js" },
-    { "src": "^/board.js$", "dest": "/static-server.js" },
-    { "src": "^/piece.js$", "dest": "/static-server.js" },
-    { "src": "^/game.js$", "dest": "/static-server.js" },
-    { "src": "/(.*)", "dest": "/static-server.js" }
+    { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
