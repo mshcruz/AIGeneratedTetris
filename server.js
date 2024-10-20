@@ -2,12 +2,15 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path');
+const next = require('next');
+
+const dev = process.env.NODE_ENV !== 'production';
+const nextApp = next({ dev });
+const nextHandler = nextApp.getRequestHandler();
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-
-const PORT = process.env.PORT || 3000;
 
 // Serve static files from the project directory
 app.use(express.static(path.join(__dirname, '.'), {
@@ -93,4 +96,18 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.get('*', (req, res) => {
+  return nextHandler(req, res);
+});
+
+module.exports = app;
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  nextApp.prepare().then(() => {
+    server.listen(PORT, (err) => {
+      if (err) throw err;
+      console.log(`> Ready on http://localhost:${PORT}`);
+    });
+  });
+}
