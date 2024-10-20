@@ -5,13 +5,7 @@ const io = require('socket.io')(server);
 const path = require('path');
 
 // Serve static files from the project directory
-app.use(express.static(path.join(__dirname, '.'), {
-  setHeaders: (res, path, stat) => {
-    if (path.endsWith('.css')) {
-      res.set('Content-Type', 'text/css');
-    }
-  }
-}));
+app.use(express.static(path.join(__dirname)));
 
 // Serve Socket.IO client
 app.get('/socket.io/socket.io.js', (req, res) => {
@@ -19,7 +13,7 @@ app.get('/socket.io/socket.io.js', (req, res) => {
 });
 
 // Serve index.html for the root route
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -94,7 +88,7 @@ io.on('connection', (socket) => {
 });
 
 // Export the Express API
-module.exports = server;
+module.exports = app;
 
 // Only listen on $ node server.js
 if (require.main === module) {
