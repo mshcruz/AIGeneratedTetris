@@ -1,8 +1,6 @@
 const canvas = document.getElementById('tetris-canvas');
 const ctx = canvas.getContext('2d');
-const socket = io({
-  transports: ['websocket', 'polling']
-});
+const socket = io(window.location.origin);
 
 // Game constants
 const BLOCK_SIZE = 30;
