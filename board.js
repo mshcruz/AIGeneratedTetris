@@ -58,7 +58,8 @@ class Board {
             '#FFFF00', // Yellow
             '#00FFFF', // Cyan
             '#FF00FF', // Magenta
-            '#FFA500'  // Orange
+            '#FFA500', // Orange
+            '#808080'  // Gray (for added lines)
         ];
         return colors[value];
     }

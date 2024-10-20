@@ -8,9 +8,22 @@ body {
     background-color: #f0f0f0;
 }
 
-.game-container {
+.menu {
     text-align: center;
-    position: relative;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.board-container {
+    margin: 0 20px;
 }
 
 canvas {
@@ -19,12 +32,22 @@ canvas {
 
 .game-info {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    margin: 10px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px;
 }
 
 #game-over {
@@ -38,6 +61,47 @@ button {
     border-radius: 10px;
 }
 
-.hidden {
-    display: none;
+#pause-btn, #restart-btn, #back-to-menu-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Space between buttons */
+}
+
+.single-player-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+#pause-btn, #restart-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    width: 100px; /* Fixed width */
+    height: 30px; /* Fixed height */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+}
+
+#back-to-menu-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    width: 150px; /* Larger width for "Back to Menu" button */
+    height: 30px; /* Fixed height */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Show ellipsis for overflowing text */
 }

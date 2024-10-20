@@ -5,20 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris Game</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div class="game-container">
+    <div id="menu" class="menu">
         <h1>Tetris</h1>
-        <canvas id="tetris-canvas" width="300" height="600"></canvas>
+        <button id="single-player-btn">Single Player</button>
+        <button id="create-game-btn">Create Multiplayer Game</button>
+        <button id="join-game-btn">Join Multiplayer Game</button>
+    </div>
+    <div id="game-code" class="hidden">
+        <h2>Game Code: <span id="code-display"></span></h2>
+        <p>Waiting for opponent to join...</p>
+    </div>
+    <div id="join-game" class="hidden">
+        <input type="text" id="game-code-input" placeholder="Enter game code">
+        <button id="submit-code-btn">Join</button>
+    </div>
+    <div id="game-container" class="hidden">
+        <div class="board-container">
+            <h2>Your Board</h2>
+            <canvas id="tetris-canvas" width="300" height="600"></canvas>
+        </div>
+        <div id="opponent-board" class="board-container">
+            <h2>Opponent's Board</h2>
+            <canvas id="opponent-canvas" width="300" height="600"></canvas>
+        </div>
         <div class="game-info">
             <p>Score: <span id="score">0</span></p>
             <p>Level: <span id="level">1</span></p>
-            <button id="pause-btn">Pause</button>
+            <div class="button-container">
+                <div class="single-player-buttons">
+                    <button id="pause-btn" class="single-player-only">Pause</button>
+                    <button id="restart-btn" class="single-player-only">Restart</button>
+                </div>
+                <button id="back-to-menu-btn">Back to Menu</button>
+            </div>
         </div>
-        <div id="game-over" class="hidden">
-            <h2>Game Over</h2>
-            <button id="restart-btn">Restart</button>
-        </div>
+    </div>
+    <div id="game-over" class="hidden">
+        <h2>Game Over</h2>
+        <p id="winner-message"></p>
+        <button id="game-over-back-to-menu-btn">Back to Menu</button>
     </div>
 
     <script src="board.js"></script>
