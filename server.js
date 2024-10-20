@@ -1,30 +1,7 @@
-const express = require('express');
-const app = express();
+const app = require('./static-server');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
-
-// Serve static files from the project directory with correct MIME types
-app.use(express.static(path.join(__dirname), {
-  setHeaders: (res, filePath) => {
-    if (path.extname(filePath) === '.css') {
-      res.setHeader('Content-Type', 'text/css');
-    }
-    if (path.extname(filePath) === '.js') {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));
-
-// Serve Socket.IO client
-app.get('/socket.io/socket.io.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'node_modules', 'socket.io', 'client-dist', 'socket.io.js'));
-});
-
-// Serve index.html for the root route
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
 
 // Store active games
 const games = new Map();
@@ -97,7 +74,7 @@ io.on('connection', (socket) => {
 });
 
 // Export the Express API
-module.exports = app;
+module.exports = server;
 
 // Only listen on $ node server.js
 if (require.main === module) {
