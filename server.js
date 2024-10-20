@@ -1,16 +1,10 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+const app = require('express')();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const path = require('path');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
-
-const PORT = process.env.PORT || 3000;
-
 // Serve static files from the project directory
-app.use(express.static(path.join(__dirname, '.'), {
+app.use(require('express').static(path.join(__dirname, '.'), {
   setHeaders: (res, path, stat) => {
     if (path.endsWith('.css')) {
       res.set('Content-Type', 'text/css');
@@ -93,4 +87,11 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Export the Express API
+module.exports = app;
+
+// Only listen on $ node server.js
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
