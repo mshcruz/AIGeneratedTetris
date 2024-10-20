@@ -1,14 +1,25 @@
 const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const http = require('http');
+const socketIo = require('socket.io');
 const path = require('path');
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-// Serve index.html for all routes
-app.get('*', (req, res) => {
+const PORT = process.env.PORT || 3000;
+
+// Serve static files from the project directory
+app.use(express.static(path.join(__dirname, '.'), {
+  setHeaders: (res, path, stat) => {
+    if (path.endsWith('.css')) {
+      res.set('Content-Type', 'text/css');
+    }
+  }
+}));
+
+// Serve index.html for the root route
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -82,5 +93,4 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
