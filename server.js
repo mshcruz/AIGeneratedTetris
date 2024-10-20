@@ -7,12 +7,7 @@ const path = require('path');
 // Serve static files
 app.use(express.static(path.join(__dirname)));
 
-// Serve Socket.IO client
-app.get('/socket.io/socket.io.js', (req, res) => {
-  res.sendFile(require.resolve('socket.io/client-dist/socket.io.js'));
-});
-
-// Serve index.html for all other routes
+// Serve index.html for all routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -87,11 +82,5 @@ io.on('connection', (socket) => {
   });
 });
 
-// Export the Express API
-module.exports = http;
-
-// Only listen on $ node server.js
-if (require.main === module) {
-  const PORT = process.env.PORT || 3000;
-  http.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
+const PORT = process.env.PORT || 3000;
+http.listen(PORT, () => console.log(`Server running on port ${PORT}`));
