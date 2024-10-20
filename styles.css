@@ -10,6 +10,7 @@ body {
 
 .game-container {
     text-align: center;
+    position: relative;
 }
 
 canvas {
@@ -18,4 +19,25 @@ canvas {
 
 .game-info {
     margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none;
 }
