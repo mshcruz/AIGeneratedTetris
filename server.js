@@ -1,6 +1,6 @@
 const app = require('./static-server');
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const path = require('path');
 
 // Store active games
@@ -74,10 +74,10 @@ io.on('connection', (socket) => {
 });
 
 // Export the Express API
-module.exports = server;
+module.exports = http;
 
 // Only listen on $ node server.js
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;
-  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  http.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }

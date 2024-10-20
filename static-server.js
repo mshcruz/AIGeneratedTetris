@@ -3,16 +3,27 @@ const path = require('path');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname), {
-  setHeaders: (res, filePath) => {
-    if (path.extname(filePath) === '.css') {
-      res.setHeader('Content-Type', 'text/css');
-    }
-    if (path.extname(filePath) === '.js') {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));
+app.get('/styles.css', (req, res) => {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(path.join(__dirname, 'styles.css'));
+});
+
+app.get('/board.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'board.js'));
+});
+
+app.get('/piece.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'piece.js'));
+});
+
+app.get('/game.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'game.js'));
+});
+
+app.use(express.static(path.join(__dirname)));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
