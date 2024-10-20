@@ -10,7 +10,13 @@ const io = socketIo(server);
 const PORT = process.env.PORT || 3000;
 
 // Serve static files from the project directory
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, '.'), {
+  setHeaders: (res, path, stat) => {
+    if (path.endsWith('.css')) {
+      res.set('Content-Type', 'text/css');
+    }
+  }
+}));
 
 // Serve index.html for the root route
 app.get('/', (req, res) => {
