@@ -4,8 +4,17 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
 
-// Serve static files from the project directory
-app.use(express.static(path.join(__dirname)));
+// Serve static files from the project directory with correct MIME types
+app.use(express.static(path.join(__dirname), {
+  setHeaders: (res, filePath) => {
+    if (path.extname(filePath) === '.css') {
+      res.setHeader('Content-Type', 'text/css');
+    }
+    if (path.extname(filePath) === '.js') {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
 
 // Serve Socket.IO client
 app.get('/socket.io/socket.io.js', (req, res) => {
